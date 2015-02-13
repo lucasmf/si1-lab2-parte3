@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import models.Episodio;
-import models.GenericDAO;
-import models.Serie;
+import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -42,7 +40,37 @@ public class Application extends Controller {
 
         return redirect("/#serie-" + id);
     }
-	
+
+	@Transactional
+	public static Result mudarEstrategia() {
+		DynamicForm requestData = Form.form().bindFromRequest();
+		Long id = Long.parseLong(requestData.get("id"));
+
+		Serie serie = dao.findByEntityId(Serie.class, id);
+		int tipoEstrategia = Integer.parseInt(requestData.get("tipoEstrategia"));
+
+		EstrategiaProximoEpisodio aux;
+
+		switch (tipoEstrategia) {
+			case (1):
+				aux = new ProximoEpisodioEstrategia1(serie);
+				dao.persist(aux);
+				serie.setEstrategia(aux);
+				dao.merge(serie);
+				dao.flush();
+				break;
+			case (2):
+				aux = new ProximoEpisodioEstrategia2(serie);
+				dao.persist(aux);
+				serie.setEstrategia(aux);
+				dao.merge(serie);
+				dao.flush();
+				break;
+		}
+
+		return redirect("/#serie-" + id + "-" + tipoEstrategia);
+	}
+
 	@Transactional
     public static Result mudarStatusDoEpisodio() {
 		
