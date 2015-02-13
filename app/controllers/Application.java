@@ -68,7 +68,7 @@ public class Application extends Controller {
 				break;
 		}
 
-		return redirect("/#serie-" + id + "-" + tipoEstrategia);
+		return redirect("/#serie-" + id);
 	}
 
 	@Transactional
