@@ -16,7 +16,7 @@ public class Episodio implements Comparable<Episodio> {
 	@ManyToOne
 	@JoinColumn(name="idSerie")
 	private Serie serie;
-	
+
 	private boolean status;
 	private String nome;
 	private int numero;
