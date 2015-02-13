@@ -4,6 +4,9 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 import models.Episodio;
+import models.EstrategiaProximoEpisodio;
+import models.ProximoEpisodioEstrategia1;
+import models.ProximoEpisodioEstrategia2;
 import models.GenericDAO;
 import models.Serie;
 import play.*;
@@ -37,12 +40,16 @@ public class Global extends GlobalSettings {
 			        		dao.persist(series.get(i).addEpisodio(nextLine[3], Integer.parseInt(nextLine[2]), Integer.parseInt(nextLine[1])));
 			        	} else {
 			        		dao.persist(serie.addEpisodio(nextLine[3], Integer.parseInt(nextLine[2]), Integer.parseInt(nextLine[1])));
-			        		series.add(serie);
+
+							series.add(serie);
 			        	}
 
 			        }
 			        
 			        for (int i = 0; i < series.size(); i++) {
+						EstrategiaProximoEpisodio ep = new ProximoEpisodioEstrategia2(series.get(i));
+						series.get(i).setEstrategia(ep);
+						dao.persist(ep);
 						dao.persist(series.get(i));
 					}
 			         

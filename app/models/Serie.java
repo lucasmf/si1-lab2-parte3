@@ -3,11 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="serie")
@@ -17,6 +13,9 @@ public class Serie implements Comparable<Serie> {
     @GeneratedValue
     private Long idSerie;
 
+	@OneToOne
+	private EstrategiaProximoEpisodio estrategia;
+
 	private String nome;
 	private boolean status;
 	
@@ -25,6 +24,7 @@ public class Serie implements Comparable<Serie> {
 		
 	public Serie(String nome) {
 		this.nome = nome;
+		this.estrategia = new ProximoEpisodioEstrategia1(this);
 		this.status = false;
 		this.episodios = new ArrayList<Episodio>();
 	}
@@ -39,7 +39,15 @@ public class Serie implements Comparable<Serie> {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	public EstrategiaProximoEpisodio getEstrategia() {
+		return estrategia;
+	}
+
+	public void setEstrategia(EstrategiaProximoEpisodio estrategia) {
+		this.estrategia = estrategia;
+	}
+
 	public boolean isAssistindo() {
 		return status;
 	}
@@ -110,7 +118,7 @@ public class Serie implements Comparable<Serie> {
 	}
 	
 	public Episodio getProximoEpisodio(int temporada) {
-		List<Episodio> eps = getEpisodios(temporada);
+		/*List<Episodio> eps = getEpisodios(temporada);
 		int i = 0;
 		int index = -1;
 		while (i < eps.size()) {
@@ -125,7 +133,9 @@ public class Serie implements Comparable<Serie> {
 		if(index == -1) {
 			return eps.get(0);
 		}
-		return eps.get(index+1);	
+		return eps.get(index+1);*/
+		//if(estrategia == null) return null;
+		return estrategia.getProximoEpisodio(temporada);
 	}
 	
 	public List<Integer> getTemporadas() {

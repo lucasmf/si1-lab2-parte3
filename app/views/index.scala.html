@@ -63,7 +63,22 @@
 							    </button>
 							</form>
 						    <p class="title-item text-info">@serie.getNome</p>
-						    <p class="title-description">@serie.getTotalDeEpisodios() episódio(s), 
+
+							<form class="pull-right" method="post" action="/serie/status">
+								<input type="hidden" name="id" value="@serie.getId">
+								Opção um: mostrar próximo episódio como o depois do último assistido.
+								<button type="submit" class="btn btn-info btn-xs">
+									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Utilizar Op1
+								</button>
+							</form>
+							<form class="pull-right" method="post" action="/serie/status">
+								<input type="hidden" name="id" value="@serie.getId">
+								Opção dois: mostrar próximo episódio como o primeiro não assistido.
+								<button type="submit" class="btn btn-success btn-xs">
+									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Utilizar Op2
+								</button>
+							</form>
+							<p class="title-description">@serie.getTotalDeEpisodios() episódio(s),
 						    @serie.getTotalDeEpisodiosAssistidos() assistido(s) e @serie.getTotalDeEpisodiosAssistir() a assistir</p>
 						    @if(serie.hasTemporadaAssistidaCompleta) {
 							    <div class="panel panel-success">
